@@ -1,0 +1,6 @@
+*/.venv
+*/__pycache__/
+*/prometheus/data/
+src/grafana/data/
+src/multiproc-tmp/
+src/alertmanager/data/
