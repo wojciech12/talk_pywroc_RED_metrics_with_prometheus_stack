@@ -363,9 +363,7 @@
 					<script type="text/template">
 					## Prometheus
 
-					- Easy semantic
 					- Large number of prometheus exporters
-					- Focus on low TCO and simplicity
 					- Powerful query - PROMQL and alarm rule language
 					- Pull model [1]
 
@@ -373,6 +371,28 @@
 					</script>
 				</section>
 
+				<!-- 
+# HELP go_gc_duration_seconds A summary of the GC invocation durations.
+# TYPE go_gc_duration_seconds summary
+go_gc_duration_seconds{quantile="0"} 9.01e-05
+go_gc_duration_seconds{quantile="0.25"} 0.000141101
+go_gc_duration_seconds{quantile="0.5"} 0.000178902
+go_gc_duration_seconds{quantile="0.75"} 0.000226903
+go_gc_duration_seconds{quantile="1"} 0.006099658
+go_gc_duration_seconds_sum 18.749046756
+go_gc_duration_seconds_count 89273
+
+#
+payment_http_handler_latency{method="GET",path="/",status_code="200",quantile="0.5"} NaN
+payment_http_handler_latency{method="GET",path="/",status_code="200",quantile="0.9"} NaN
+payment_http_handler_latency{method="GET",path="/",status_code="200",quantile="0.99"} NaN
+payment_http_handler_latency_sum{method="GET",path="/liabilities/5afc086a7188ca000846f565",status_code="200"} 100
+payment_http_handler_latency_count{method="GET",path="/liabilities/5afc086a7188ca000846f565",status_code="200"} 15
+				-->
+
+				<!--
+
+				-->
 				<section data-markdown>
 					<script type="text/template">
 					### Metrics
@@ -381,17 +401,6 @@
 					- Gauge - up/down
 					- Summary
 					- Histogram - with predefined buckets
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-					### Metrics
-
-					Histogram / Summary:
-					- sum <code>_sum</code>
-					- count <code>_count</code>
-					- count / sum per bucket
 					</script>
 				</section>
 
@@ -433,6 +442,16 @@
 					</script>
 				</section>
 
+				<section data-markdown>
+					<script type="text/template">
+					### Metrics
+
+					Histogram / Summary:
+					- sum <code>_sum</code>
+					- count <code>_count</code>
+					- count / sum per bucket
+					</script>
+				</section>
 
 				<!--
 				rate(order_mgmt_audit_duration_seconds_sum[5m])/ rate(order_mgmt_audit_duration_seconds_count[5m])
@@ -448,8 +467,19 @@
 
 					Histogram / Summary:
 					- latency of services
-					- RED metrics
-					- Request or Rquest size
+					- Request or Request size
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+					### Python client
+
+					- https://github.com/prometheus/client_python
+					- <a href="https://github.com/prometheus/client_python#counter">Counter</a>
+					- <a href="https://github.com/prometheus/client_python#gauge">Gauge</a>
+					- <a href="https://github.com/prometheus/client_python#summary">Summary</a>
+					- <a href="https://github.com/prometheus/client_python#histogram">Histogram</a>
 					</script>
 				</section>
 
@@ -513,22 +543,10 @@ Omited:
 
 				<section data-markdown>
 					<script type="text/template">
-					### Python client
+						### Demo: Python Code
 
-					- https://github.com/prometheus/client_python
-					- <a href="https://github.com/prometheus/client_python#counter">Counter</a>
-					- <a href="https://github.com/prometheus/client_python#gauge">Gauge</a>
-					- <a href="https://github.com/prometheus/client_python#summary">Summary</a>
-					- <a href="https://github.com/prometheus/client_python#histogram">Histogram</a>
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						### Demo: Code
-
-						- Metric definition
-						- Metric collection
+						- Metric Definition
+						- Metric Collection
 						- Exposing metrics <code>metrics/</code>
 					</script>
 				</section>
@@ -546,7 +564,7 @@ Omited:
 
 				<section data-markdown>
 					<script type="text/template">
-					## Prometheus
+					### Prometheus - PROMQL
 <pre><code class="yaml" data-trim="" width="100%">
 sum(irate(order_mgmt_duration_seconds_count{job=~".*"}[1m]))
    by (status_code)</pre></code>
@@ -555,7 +573,7 @@ sum(irate(order_mgmt_duration_seconds_count{job=~".*"}[1m]))
 
 				<section data-markdown>
 					<script type="text/template">
-					## Prometheus
+					### Prometheus - PROMQL
 <pre><code class="yaml" data-trim="" width="100%">
 order_mgmt_duration_seconds_sum{job=~".*"} or
 order_mgmt_database_duration_seconds_sum{job=~".*"} or
@@ -572,7 +590,7 @@ order_mgmt_audit_duration_seconds_sum{job=~".*"}
 						<li>...</li>
 					</ul>
 
-					<br/><small><a href="https://github.com/skarab7/kubernetes-memcached">Example</a></small>
+					<br/><p><small><a href="https://github.com/skarab7/kubernetes-memcached">Example</a></small></p>
 				</section>
 
 				<section>
@@ -601,15 +619,15 @@ order_mgmt_audit_duration_seconds_sum{job=~".*"}
 
 				<section>
 					<h3>Summary</h3>
-					<img src="img/observability.svg" width="60%">
+					<img src="img/observability.svg" width="90%">
 				</section>
 
 			<section data-background="img/smacc_header_IT_source.jpg" data-background-repeat="" data-background-size="100%" data-background-position="bottom" style="position: relative; top:0">
 				<h1>Thank you</h1>
 			</section>
 
-			<!-- 
-WE AERE!
+			<!--
+				XXXXXXXX
 			-->
 			<section>
 				<h7>Warsaw Office in BL Astoria:</h7>
