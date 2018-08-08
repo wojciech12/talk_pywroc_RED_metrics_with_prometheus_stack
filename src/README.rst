@@ -9,7 +9,7 @@ How-to
 
    ::
 
-     make build
+     make docker_build
      make start
 
 2. Access the services:
@@ -48,7 +48,7 @@ Docker-compose mounts all configuration from the git repo. You can change it loc
 
    ::
 
-     docker restart talkpywapromflask_grafana_1
+     docker restart talk-wrocpy-prom-flask_grafana_1
 
 Development
 ===========

@@ -164,7 +164,7 @@
 				<section>
 					<h3>Monitoring</h3>
 					<img src="img/kubernetes-grafana-cluster-1024x503.png" width="80%" />
-					
+
 					<p><small>Example from <a href="https://blog.couchbase.com/wp-content/original-assets/december-2016/kubernetes-monitoring-with-heapster-influxdb-and-grafana/">couchbase blog</a></small></p>
 				</section>
 
@@ -333,7 +333,7 @@
  				</section>
 
 				<section>
-					<h3>Prometheus</h3>
+					<h3>Implementacja z Prometheus</h3>
 						<img src="img/logo_prometheus.png" width="40%" />
 						<img src="img/logo_grafana.png" width="30%" />
 					</h3>
@@ -355,43 +355,99 @@
 
 					- Wide support for languages
 					- Metrics collected over HTTP <a href="http://127.0.0.1:8080/metrics">*metrics/*</a>
-					- Metrics in text
+					- Pull model (see *scrape time*), possible push
 					</script>
 				</section>
 
 				<section data-markdown>
 					<script type="text/template">
-					## Prometheus
+### Metrics in text
 
-					- Large number of prometheus exporters
-					- Powerful query - PROMQL and alarm rule language
-					- Pull model [1]
+	# HELP order_mgmt_audit_duration_seconds Multiprocess metric
+	# TYPE order_mgmt_audit_duration_seconds summary
+	order_mgmt_audit_duration_seconds_count{status_code="200"} 41.0
+	order_mgmt_audit_duration_seconds_sum{status_code="200"} 27.445735454559326
+	order_mgmt_audit_duration_seconds_count{status_code="500"} 1.0
+	order_mgmt_audit_duration_seconds_sum{status_code="500"} 0.7166361808776855
+	# HELP order_mgmt_duration_seconds Multiprocess metric
+	# TYPE order_mgmt_duration_seconds summary
+	order_mgmt_duration_seconds_count{method="GET",path="/complex",status_code="200"} 41.0
+	order_mgmt_duration_seconds_sum{method="GET",path="/complex",status_code="200"} 47.53411388397217
+	order_mgmt_duration_seconds_count{method="GET",path="/",status_code="404"} 1.0
+	order_mgmt_duration_seconds_sum{method="GET",path="/",status_code="404"} 0.029236555099487305
+	order_mgmt_duration_seconds_count{method="GET",path="/complex",status_code="503"} 1.0
+	order_mgmt_duration_seconds_sum{method="GET",path="/complex",status_code="503"} 1.6936163902282715
 
-<center><small>[1] my preference</small></center>
 					</script>
 				</section>
 
-				<!-- 
-# HELP go_gc_duration_seconds A summary of the GC invocation durations.
-# TYPE go_gc_duration_seconds summary
-go_gc_duration_seconds{quantile="0"} 9.01e-05
-go_gc_duration_seconds{quantile="0.25"} 0.000141101
-go_gc_duration_seconds{quantile="0.5"} 0.000178902
-go_gc_duration_seconds{quantile="0.75"} 0.000226903
-go_gc_duration_seconds{quantile="1"} 0.006099658
-go_gc_duration_seconds_sum 18.749046756
-go_gc_duration_seconds_count 89273
+				<section data-markdown>
+					<script type="text/template">
+### Metrics in text
 
-#
-payment_http_handler_latency{method="GET",path="/",status_code="200",quantile="0.5"} NaN
-payment_http_handler_latency{method="GET",path="/",status_code="200",quantile="0.9"} NaN
-payment_http_handler_latency{method="GET",path="/",status_code="200",quantile="0.99"} NaN
-payment_http_handler_latency_sum{method="GET",path="/liabilities/5afc086a7188ca000846f565",status_code="200"} 100
-payment_http_handler_latency_count{method="GET",path="/liabilities/5afc086a7188ca000846f565",status_code="200"} 15
-				-->
+	# HELP go_gc_duration_seconds A summary of the GC invocation durations.
+	# TYPE go_gc_duration_seconds summary
+	go_gc_duration_seconds{quantile="0"} 9.01e-05
+	go_gc_duration_seconds{quantile="0.25"} 0.000141101
+	go_gc_duration_seconds{quantile="0.5"} 0.000178902
+	go_gc_duration_seconds{quantile="0.75"} 0.000226903
+	go_gc_duration_seconds{quantile="1"} 0.006099658
+	go_gc_duration_seconds_sum 18.749046756
+	go_gc_duration_seconds_count 89273
+
+				</script>
+			</section>
+
+				<section data-markdown>
+					<script type="text/template">
+					## Prometheus Exporters
+
+					Exporters:
+
+					- Mongodb
+					- Mysql
+					- Postgresql
+					- ...
+					- also Blackbox exporter
+
+					<br/><p><small><a href="https://github.com/skarab7/kubernetes-memcached">Example</a></small></p>
+				</script>
+			</section>
+
+
+				<section data-markdown>
+					<script type="text/template">
+					### Prometheus P<span style="text-transform: lowercase;">rom</span>QL
+
+					Powerful query language:
+
+	histogram_quantile(0.9, rate(http_request_duration_seconds_bucket[10m]))
+	predict_linear
+	rate(http_requests_total{job="api-server"}[5m])
+	irate(http_requests_total{job="api-server"}[5m])
+	holt_winters()
+					</script>
+					<!-- https://prometheus.io/docs/prometheus/latest/querying/functions/#holt_winters() -->
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+					### Prometheus P<span style="text-transform: lowercase;">rom</span>QL
+
+					You can also use it for alarming:
+
+<pre><code>ALERT ProductionAppServiceInstanceDown
+   IF up { environment = "production", app =~ ".+"} == 0
+   FOR 4m
+   ANNOTATIONS {
+        summary = "Instance of {{$labels.app}} is down",
+        description = " Instance  {{$labels.instance}} of app {{$labels.app}} has been down for more than 4 minutes"
+   }</code></pre>
+					</script>
+					<!-- https://prometheus.io/docs/prometheus/latest/querying/functions/#holt_winters() -->
+				</section>
 
 				<!--
-
 				-->
 				<section data-markdown>
 					<script type="text/template">
@@ -399,17 +455,14 @@ payment_http_handler_latency_count{method="GET",path="/liabilities/5afc086a7188c
 
 					- Counter - just up
 					- Gauge - up/down
-					- Summary
-					- Histogram - with predefined buckets
+					- Summary  
+					- Histogram
 					</script>
 				</section>
 
 				<section data-markdown>
 					<script type="text/template">
-					### Metrics
-
-					Histogram:
-
+					### Histogram
 					<code>traefik_duration_seconds_bucket<br />{method="GET,code="200"}</code>
 
 					<table class="table">
@@ -436,50 +489,46 @@ payment_http_handler_latency_count{method="GET",path="/liabilities/5afc086a7188c
 								 <td>{le="+Inf"}</td>
 								 <td>2</td>
 							</tr>
+							<tr>
+								<td>_sum</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>_count</td>
+								<td>2342</td>
+							</tr>
 						 </tbody>
 					</table>
 
 					</script>
 				</section>
 
+				<!-- A Summary similar to histogram_quantile() -->
 				<section data-markdown>
 					<script type="text/template">
-					### Metrics
+					### Summary
+					<code>http_request_duration_seconds</code>
 
-					Histogram / Summary:
-					- sum <code>_sum</code>
-					- count <code>_count</code>
-					- count / sum per bucket
-					</script>
-				</section>
-
-				<!--
-				rate(order_mgmt_audit_duration_seconds_sum[5m])/ rate(order_mgmt_audit_duration_seconds_count[5m])
-				-->
-
-				<!--
-				http://127.0.0.1:9090/graph?g0.range_input=1h&g0.stacked=1&g0.expr=rate(order_mgmt_audit_duration_seconds_sum%5B5m%5D)%2F%20rate(order_mgmt_audit_duration_seconds_count%5B5m%5D)&g0.tab=0
-				-->
-
-				<section data-markdown>
-					<script type="text/template">
-					### Metric Collectors
-
-					Histogram / Summary:
-					- latency of services
-					- Request or Request size
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-					### Python client
-
-					- https://github.com/prometheus/client_python
-					- <a href="https://github.com/prometheus/client_python#counter">Counter</a>
-					- <a href="https://github.com/prometheus/client_python#gauge">Gauge</a>
-					- <a href="https://github.com/prometheus/client_python#summary">Summary</a>
-					- <a href="https://github.com/prometheus/client_python#histogram">Histogram</a>
+					<table class="table">
+						 <tbody>
+							<tr>
+								 <td>{quantile="0.5"}</td>
+								 <td>4</td>
+							</tr>
+							<tr>
+								 <td>{quantile="0.9"}</td>
+								 <td>5</td>
+							</tr>
+							<tr>
+								 <td>http_request_duration_seconds_sum</td>
+								 <td>9</td>
+							</tr>
+							<tr>
+								 <td>http_request_duration_seconds_count</td>
+								 <td>3</td>
+							</tr>
+						 </tbody>
+					</table>
 					</script>
 				</section>
 
@@ -489,10 +538,67 @@ payment_http_handler_latency_count{method="GET",path="/liabilities/5afc086a7188c
 				https://github.com/prometheus/client_java/blob/master/simpleclient/src/main/java/io/prometheus/client/Summary.java#L61-L63
 				https://povilasv.me/prometheus-tracking-request-duration/
 				-->
+				<section data-markdown>
+					<script type="text/template">
+					### Histogram / Summary:
+
+					- Latency of services
+					- Request or Request size
+					</script>
+				</section>
+
+				<!--
+				rate(order_mgmt_audit_duration_seconds_sum[5m])/ rate(order_mgmt_audit_duration_seconds_count[5m])
+				-->
+				<!--
+				http://127.0.0.1:9090/graph?g0.range_input=1h&g0.stacked=1&g0.expr=rate(order_mgmt_audit_duration_seconds_sum%5B5m%5D)%2F%20rate(order_mgmt_audit_duration_seconds_count%5B5m%5D)&g0.tab=0
+				-->
+				<section data-markdown>
+					<script type="text/template">
+					### RED
+
+Metric + PromQL:
+
+	sum(irate(order_mgmt_duration_seconds_count
+	{job=~".*"}[1m])) by (status_code)
+
+					</script>
+				</section>
+
+				<!-- section data-markdown>
+					<script type="text/template">
+					### Metrics
+
+					Histogram / Summary:
+					- sum <code>_sum</code>
+					- count <code>_count</code>
+					- count / sum per bucket
+					</script>
+				</section -->
+
+				<section>
+					<h3>Prometheus + Python</h3>
+						<img src="img/logo_prometheus.png" width="30%" />
+						<img src="img/logo_grafana.png" width="20%" />
+						<img src="img/logo_python.png" width="30%" />
+					</h3>
+				</section>
 
 				<section data-markdown>
 					<script type="text/template">
-					#### Simple REST service
+					### Python client
+
+					- <a target="_blank" href="https://github.com/prometheus/client_python">client_python</a>
+					- <a target="_blank" href="https://github.com/prometheus/client_python#counter">Counter</a>
+					- <a target="_blank" href="https://github.com/prometheus/client_python#gauge">Gauge</a>
+					- <a target="_blank" href="https://github.com/prometheus/client_python#summary">Summary</a>
+					- <a target="_blank" href="https://github.com/prometheus/client_python#histogram">Histogram</a>
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+					#### Demo: Simple REST service
 
 <pre><code>
      -----------         ---------------
@@ -508,36 +614,13 @@ payment_http_handler_latency_count{method="GET",path="/liabilities/5afc086a7188c
 
 				<section data-markdown>
 					<script type="text/template">
-					#### Simple REST service
+					#### Demo: 
 
-<pre><code class="bash" data-trim="" width="100%">curl 127.0.0.1:8080/hello
-curl 127.0.0.1:8080/world
-curl 127.0.0.1:8080/complex</code></pre>
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-					#### Simple REST service
-
-<pre><code class="bash" data-trim="" width="100%">
-curl 127.0.0.1:8080/complex?is_srv_error=True
-curl 127.0.0.1:8080/complex?is_db_error=True
-curl 127.0.0.1:8080/complex?db_sleep=3&srv_sleep=2
-</code></pre>
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-					#### Operation endpoints
-
-<code>metrics/</code>
-
-Omited:
-- <i>health/</i>
-- <i>info/</li>
-- <i>alertrules/</i>
+- <a target="_blank" href="http://127.0.0.1:8080/metrics/">http://127.0.0.1:8080</a> - service
+- <a target="_blank" href="http://127.0.0.1:8080/metrics/">http://127.0.0.1:8080/metrics/</a>
+- <a target="_blank" href="http://127.0.0.1:9090">http://127.0.0.1:9090</a> - prometheus
+- <a target="_blank" href="http://127.0.0.1:3000">http://127.0.0.1:3000</a> - grafana
+- <a target="_blank" href="http://127.0.0.1:9093">http://127.0.0.1:9093</a> - alertmanager
 					</script>
 				</section>
 
@@ -547,7 +630,29 @@ Omited:
 
 						- Metric Definition
 						- Metric Collection
-						- Exposing metrics <code>metrics/</code>
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+					#### Demo: Simulating Calls
+
+<pre><code class="bash" data-trim="" width="100%">curl 127.0.0.1:8080/hello
+curl 127.0.0.1:8080/world
+curl 127.0.0.1:8080/complex</code></pre>
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+					#### Demo: Simulating Calls
+
+<pre><code class="bash" data-trim="" width="100%">
+curl 127.0.0.1:8080/complex?is_srv_error=True
+curl 127.0.0.1:8080/complex?is_db_error=True
+curl 127.0.0.1:8080/complex?db_sleep=3&srv_sleep=2
+# load generator
+make srv_wrk_random</code></pre>
 					</script>
 				</section>
 
@@ -564,7 +669,7 @@ Omited:
 
 				<section data-markdown>
 					<script type="text/template">
-					### Prometheus - PROMQL
+					### P<span style="text-transform: lowercase;">rom</span>QL
 <pre><code class="yaml" data-trim="" width="100%">
 sum(irate(order_mgmt_duration_seconds_count{job=~".*"}[1m]))
    by (status_code)</pre></code>
@@ -573,24 +678,13 @@ sum(irate(order_mgmt_duration_seconds_count{job=~".*"}[1m]))
 
 				<section data-markdown>
 					<script type="text/template">
-					### Prometheus - PROMQL
+					### P<span style="text-transform: lowercase;">rom</span>QL
 <pre><code class="yaml" data-trim="" width="100%">
 order_mgmt_duration_seconds_sum{job=~".*"} or
 order_mgmt_database_duration_seconds_sum{job=~".*"} or
 order_mgmt_audit_duration_seconds_sum{job=~".*"}
 </code></pre>
 				</script>
-				</section>
-
-				<section>
-					<h3>Prometheus Exporters</h3>
-					<ul>
-						<li>Mongodb</li>
-						<li>Postresql</li>
-						<li>...</li>
-					</ul>
-
-					<br/><p><small><a href="https://github.com/skarab7/kubernetes-memcached">Example</a></small></p>
 				</section>
 
 				<section>
@@ -609,10 +703,20 @@ order_mgmt_audit_duration_seconds_sum{job=~".*"}
 				</section -->
 
 				<section>
+					<h3>Best practises</h3>
+					<ul>
+						<li>Prefix for the metric names is your service name</li>
+						<li>Under higher load, you need to have muliprocessing, otherwise your service will hang</li>
+						<li>You can start simple (whether sth is up and down), later you can add more complex rules</li>
+						<li>Sum over Summaries with Q leads to incorrect results, see <a target="_blank" href="https://prometheus.io/docs/practices/histograms/">prom docs</a></li>
+					</ul>
+				</section>
+
+				<section>
 					<h3>Summary</h3>
 					<ul>
 						<li>Monitoring saves your time</li>
-						<li>Checking logs <b>Kibana</b> to check whether your component works is like debuging vs having tests</li>
+						<li>Checking logs <b>Kibana</b> vs <b>Grafana</b> is like debuging vs having tests</li>
 						<li>Logging -&gt; high TCO</li>
 					</ul>
 				</section>
@@ -631,15 +735,6 @@ order_mgmt_audit_duration_seconds_sum{job=~".*"}
 				<h4>Questions?</h4>
 			</section>
 
-			<!--
-				XXXXXXXX
-			-->
-			<section>
-				<h7>Warsaw Office in BL Astoria:</h7>
-				<img src="img/smacc_we_are_hiring.jpg" />
-
-			</section>
-
 			<section>
 				<img src="img/logo_smacc.png" width="40%" />
 				<img src="img/logo_go.png" width="25%" />
@@ -653,19 +748,30 @@ order_mgmt_audit_duration_seconds_sum{job=~".*"}
 				<img src="img/logo_aws.png" width="20%" />
 				<img src="img/logo_azure.png" width="15%" />
 				<img src="img/logo_lambda.png" width="15%" />
-				
+
 				<img src="img/smacc_lets_do_this.png" width="25%" />
 			</section>
 
-				<!--
-					BACKUP SLIDES
-				-->
+			<!--
+				XXXXXXXX
+			-->
+			<section>
+				<h7>Warsaw Office in BL Astoria:</h7>
+				<img src="img/smacc_we_are_hiring.jpg" />
+			</section>
+
+			<!--
+				BACKUP SLIDES
+			-->
 			<section data-background="img/smacc_header_IT_source.jpg" data-background-repeat="" data-background-size="100%" data-background-position="bottom" style="position: relative; top:0">
 				<h1>Backup Slides</h1>
 			</section>
 
 				<section>
-					<h5>Use Labels in Alert Rules</h5>
+					<h5>Promethus - labels in alert rules</h5>
+
+The labels are propageted to alert rules:
+
 <pre><code>ALERT ProductionAppServiceInstanceDown
    IF up { environment = "production", app =~ ".+"} == 0
    FOR 4m
@@ -677,7 +783,7 @@ order_mgmt_audit_duration_seconds_sum{job=~".*"}
 		 		</section>
 
 				<section>
-					<h5>Use Labels in Alert Routing</h5>
+					<h5>AlertManger - labels in AlertManger</h5>
 <small>Call somebody if the label is <code>severity=page</code>:</small>
 <pre><code>---
  group_by: [cluster]
@@ -698,15 +804,17 @@ receivers:
 
 				<section data-markdown>
 					<script type="text/template">
-						### Pushing metrics
+						### Prometheus - Push model
 
 						- See: https://prometheus.io/docs/instrumenting/pushing/
+
+						Good for short living jobs in your cluster.
 					</script>
 				</section>
 
 				<section data-markdown>
 					<script type="text/template">
-						### Metric names
+						### Designing metric names
 
 						Which one is better?
 
@@ -717,7 +825,7 @@ receivers:
 
 				<section data-markdown>
 					<script type="text/template">
-						### Metric names
+						### Designing metric names
 
 						Which one is better?
 
@@ -727,7 +835,7 @@ receivers:
 				</section>
 
 			<section>
-				<h2>Prometheus + K8S = :)</h2>
+				<h2>Prometheus + K8S = &lt;3</h2>
 				<h5>Labels are propagated from k8s to prometheus</h5>
 			</section>
 

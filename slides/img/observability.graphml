@@ -15,11 +15,10 @@
   <graph edgedefault="directed" id="G">
     <data key="d0"/>
     <node id="n0">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="130.0" width="325.0" x="282.0" y="611.0"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Geometry height="130.0" width="325.0" x="290.0" y="533.0"/>
+          <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="22.84375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="66.2109375" x="129.39453125" y="53.578125">Testing<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -33,11 +32,10 @@
       </data>
     </node>
     <node id="n1">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="107.0" width="316.0" x="649.0" y="733.0"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Geometry height="107.0" width="316.0" x="577.0" y="698.0"/>
+          <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="41.6875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="267.0234375" x="24.48828125" y="32.65625">Testing in Production
 Smoke tests / Acceptance Tests<y:LabelModel>
@@ -52,11 +50,10 @@ Smoke tests / Acceptance Tests<y:LabelModel>
       </data>
     </node>
     <node id="n2">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="96.0" width="267.0" x="965.0" y="598.0"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Geometry height="96.0" width="267.0" x="838.0" y="552.5"/>
+          <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="41.6875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="155.0078125" x="55.99609375" y="27.15625">Monitoring Simple
 (up/down + KPI)<y:LabelModel>
@@ -71,11 +68,10 @@ Smoke tests / Acceptance Tests<y:LabelModel>
       </data>
     </node>
     <node id="n3">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="63.0" width="267.0" x="649.0" y="326.0"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Geometry height="63.0" width="267.0" x="588.0" y="347.0"/>
+          <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="22.84375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="94.6953125" x="86.15234375" y="20.078125">Monitoring<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -89,11 +85,10 @@ Smoke tests / Acceptance Tests<y:LabelModel>
       </data>
     </node>
     <node id="n4">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="35.0" width="252.0" x="330.0" y="443.0"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Geometry height="35.0" width="252.0" x="393.0" y="468.0"/>
+          <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="16" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="22.84375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="165.9453125" x="43.02734375" y="6.078125">Explorations / Logs<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -107,76 +102,70 @@ Smoke tests / Acceptance Tests<y:LabelModel>
       </data>
     </node>
     <edge id="e0" source="n1" target="n2">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="158.00000000000003" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="1046.7081298828125" y="730.462890625"/>
+            <y:Point x="948.3260498046875" y="684.357421875"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:Arc height="-20.633790969848633" ratio="-0.42585504055023193" type="fixedRatio"/>
+          <y:Arc height="-18.118633270263672" ratio="-0.42585504055023193" type="fixedRatio"/>
         </y:ArcEdge>
       </data>
     </edge>
     <edge id="e1" source="n2" target="n3">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="1009.06640625" y="426.6478271484375"/>
+            <y:Point x="899.2616577148438" y="430.083740234375"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:Arc height="-101.6940689086914" ratio="-0.9506603479385376" type="fixedRatio"/>
+          <y:Arc height="-79.46121978759766" ratio="-0.9506603479385376" type="fixedRatio"/>
         </y:ArcEdge>
       </data>
     </edge>
     <edge id="e2" source="n0" target="n1">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="-139.65543071161045" ty="-5.095238095238097">
-            <y:Point x="543.834228515625" y="754.2586059570312"/>
+            <y:Point x="506.90289306640625" y="688.5840454101562"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:Arc height="-28.270845413208008" ratio="-0.4587274193763733" type="fixedRatio"/>
+          <y:Arc height="-23.62238883972168" ratio="-0.4587274193763733" type="fixedRatio"/>
         </y:ArcEdge>
       </data>
     </edge>
     <edge id="e3" source="n3" target="n4">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="605.2174072265625" y="364.51812744140625"/>
+            <y:Point x="599.3428955078125" y="392.43280029296875"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:Arc height="-46.64279556274414" ratio="-0.5449540615081787" type="fixedRatio"/>
+          <y:Arc height="-44.751220703125" ratio="-0.781574547290802" type="fixedRatio"/>
         </y:ArcEdge>
       </data>
     </edge>
     <edge id="e4" source="n4" target="n0">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="402.0347900390625" y="565.677001953125"/>
+            <y:Point x="460.57965087890625" y="526.8715209960938"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:Arc height="-48.28379821777344" ratio="-0.8949456214904785" type="fixedRatio"/>
+          <y:Arc height="-29.23893165588379" ratio="-0.8949456214904785" type="fixedRatio"/>
         </y:ArcEdge>
       </data>
     </edge>
     <edge id="e5" source="n0" target="n0">
-      <data key="d9"/>
       <data key="d10">
         <y:ArcEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="444.5" y="676.0"/>
+            <y:Point x="452.5" y="598.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
