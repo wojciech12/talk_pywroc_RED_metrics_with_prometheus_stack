@@ -2,10 +2,14 @@
 RED metrics for a REST service with Prometheus, AlertManager, and Grafana
 =========================================================================
 
+How to monitor your micro-service with Prometheu? How to design metrics, what is USE and RED?
+
 Presentation and live-coding demo:
 
 - slides/ - check `the pdf export <slides/index.pdf>`_
 - src/ - an example REST application monitored with Prometheus, Alertmanager, and Grafana. All easily to run with `docker-compose <src/docker-compose.yaml>`_
+
+The live-demo consists of a Flask application and configured prometheus with grafana and alertmanager. To make it event easier, a request generator will let you stress the monitored endpoints with random errors and latency injections. Check the READMEs.
 
 Related Work
 ============
