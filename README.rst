@@ -2,7 +2,7 @@
 RED metrics for a REST service with Prometheus, AlertManager, and Grafana
 =========================================================================
 
-How to monitor your micro-service with Prometheu?s How to design metrics, what is USE and RED?
+How to monitor your micro-service with Prometheus? How to design metrics, what is USE and RED?
 
 Presentation and live-coding demo:
 
